@@ -1,5 +1,4 @@
 const cheerio = require('cheerio')
-const path = require('path')
 const {get} = require('axios')
 const {writeFile} = require('fs')
 const {promisify} = require('util');
