@@ -32,8 +32,9 @@ async function scrapeWikipedia() {
           if (index > 0) {
             const naselje = $($(element).find('td')[naseljeIndex]).text().trim()
             const obcina = $($(element).find('td')[obcinaIndex]).text().trim()
+            const obcinaClean = obcina.replace(/Mestna občina\ |Občina\ /, '')
 
-            naseljaMap[naselje] = obcina.replace('Občina ', '')
+            naseljaMap[naselje] = obcinaClean
           }
         })
         await writeFilePromise(
