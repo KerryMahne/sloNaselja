@@ -16,25 +16,31 @@ async function scrapeWikipedia() {
       const url = returnUrl(letter)
       const naseljaMap = {}
       try {
-        console.log("url", url)
         const result = await get(url)
         const $ = cheerio.load(result.data)
-        // /html/body/div[3]/div[3]/div[4]/div/table
-        //console.log('ma', $('.wikitable tbody tr').html())
+        const naseljeIndex = 0;
+        let obcinaIndex = 1; // default
 
         $('.wikitable').find('tbody tr').each((index, element) => {
+          if (index === 0) { // if the table header
+            $($(element).children()).each((headerIndex, headerEl) => {
+              if ($(headerEl).text() === 'Občina') {
+                obcinaIndex = headerIndex;
+              }
+            })
+          }
+
           if (index > 0) {
-            const naselje = $($(element).find('td')[0]).text()
-            const obcina = $($(element).find('td')[1]).text()
+            const naselje = $($(element).find('td')[naseljeIndex]).text().trim()
+            const obcina = $($(element).find('td')[obcinaIndex]).text().trim()
 
             naseljaMap[naselje] = obcina
           }
         })
-
         await writeFilePromise(
           `./data/${letter}.json`, 
           JSON.stringify(naseljaMap, null, 2)
-          )
+        )
       } catch(err) {
         console.error('something went wrong', err)
       }
