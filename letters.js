@@ -1,5 +1,5 @@
 module.exports.letters = [
-  /*'A',
+  'A',
   'B',
   'C',
   'Č',
@@ -23,7 +23,6 @@ module.exports.letters = [
   'U',
   'V',
   'Z',
-  */
   'Ž'
 ]
 
